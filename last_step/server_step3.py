@@ -1,3 +1,8 @@
+# Далее файл переимунуем из server в __init__
+# чтобы программа запускалась сразу при импорте
+# и переместим часть ключевых файлов, как того требует
+# новый станрадрт Flask
+
 from flask import Flask, render_template
 from weather import weather_by_city
 

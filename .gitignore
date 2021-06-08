@@ -1,5 +1,8 @@
 
 .vscode/
+# Систменая папка питона
 __pycache__/
+
 env/
 settings.py
+config.py

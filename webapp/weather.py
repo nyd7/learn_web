@@ -1,11 +1,22 @@
+# Такой импорт дает нам возможность обрщаться к Фласку!,
+# как текущему веб приложению
+# вместо  import webapp.settings или .config
+from flask import current_app
+
 import requests
-import settings
 
 
 def weather_by_city(city_name):
-    weather_url = 'http://api.worldweatheronline.com/premium/v1/weather.ashx'
+
+    # weather_url = 'http://api.worldweatheronline.com/premium/v1/weather.ashx'
+    weather_url = current_app.config['WEATHER_URL']
+
+    # "key": webapp.settings.API_KEY, - ранее
+    # "key": current_app.config['WEATHER_API_KEY'] - сейчас
+    # Ключ: ТекущееПриложение.Конфигурация[Переменная как ключ словаря!]
+
     params_wather = {
-        "key": settings.API_KEY,
+        "key": current_app.config['WEATHER_API_KEY'],
         "q": city_name,
         "format": "json",
         "num_of_days": 1,
