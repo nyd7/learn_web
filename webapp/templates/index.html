@@ -65,7 +65,11 @@
                     <hr/> - черта, рисует разделющую черту
                     -->
                     <h3><a href="{{news.url}}">{{news.title}}</a></h3>
-                    <p></p>{{news.published}}</p>
+                    <!-- На входе мы получаем дату с милисикундами,
+                        меняем формат, также как в python c помощью
+                        datatime  .strftime()
+                     -->
+                    <p></p>{{news.published.strftime('%Y-%m-%d')}}</p>
                     <hr/>
                     {% endfor %}
                     
