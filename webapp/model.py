@@ -1,21 +1,25 @@
-# Из фалска SQL импортируем модуль SQLAlchemy
+# Предварительно устнаовив pip flask_login
+# имортируем из него UserMixin, которы содержит доп свойства
+# по отражению пользователя, а именно
+# is_authenticated: True
+# is_active: True
+# is_anonymous: Flask-Login выставит это свойство в True,
+#  если пользователь не авторизован
+#  get_id(): метод, который возвращает id пользователя в виде строки,
+# нам бы пришлось делать его если бы в Модели User,
+# id называось иначе чем id (к примеру user_id)
+# Подробности см в лекции.
+from flask_login import UserMixin
+
+# Бибилотека с шифраторами
+#  generate_password_hash - хеширует пароль пользователя
+#  check_password_hash - получает пароль при очередном входе пользователя,
+# снова хеширует через generate_password_hash и проверяет на совпадение
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from flask_sqlalchemy import SQLAlchemy
 
-# Объявляем переменную db как модуль SQLAlchemy
-#  db становтиься изменяемым модулем.
 db = SQLAlchemy()
-
-# Переменная News будет подклассом унаследованным,
-# от класса Model в модуле SQLAlchemy = db.Model
-# Также. Ранее мы из sqlalchemy.orm имортировали функции Column,
-#  Integer, String
-# здесь же, ришили описывать по типу sqlalchemy.orm.Column...
-# + добавилось .DateTime (дата) и .Text (текст)
-# primary_key - является уникальным ключом
-# nullable=False - поле может быть пустым = Ложь, иначе выдаст ошибку
-
-# Прописывая нюансы в подмоделе News мы меняем глбальную модель db,
-# которая сама унаследовалась от SQLAlchemy()
 
 
 class News(db.Model):
@@ -28,3 +32,36 @@ class News(db.Model):
     def __repr__(self):
         # return '<News {} {}>'.format(self.title, self.url)
         return f"News {self.title} {self.url}"
+
+
+# ДОбавим к классу User еще наследоство и от UserMixin
+# наследоваться можно от нескольких классов
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    password = db.Column(db.String(128))
+    role = db.Column(db.String(10), index=True)
+
+    # Добавим еще 2 свойства для работы с паролями
+    # Функция шифрует пароль
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    # Функция шифрует и сравнимвает при потоврном входе пользователя
+    # и возращает итого проверки Правда или Ложь
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+    # Класс должен сообщать нам, является ли пользователь администратором
+    # Добавим в классе User метод is_admin.
+    # Декоратор @property позволяет вызывать метод как атрибут, без скобочек:
+    # т.е. не is_admin(), а is_admin
+    #
+    # Пишем функцию, которая сравнивает значение self.role и 'admin'
+    # и выдает ЛОЖЬ или ПРАВДА
+    @property
+    def is_admin(self):
+        return self.role == 'admin'
