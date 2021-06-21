@@ -12,7 +12,10 @@ import sys
 from webapp import create_app
 
 # Из модели имортируем Модель юзера и глобальную Модель db
-from webapp.model import User, db
+# from webapp.model import User, db
+from webapp.db import db
+from webapp.user.models import User
+
 
 # Воссоздали в перменной наше приложение
 app = create_app()

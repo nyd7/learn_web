@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+  <!-- Говрим наследоваться от base.html -->
+
+{% block content %}
+<!-- начало контента-->
+    <div class='row'>
+        <!-- <h1>{{ page_title }}</h1> -->
+
+        <div class='col-4'>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="alert alert-warning" role="alert">
+                {% for message in messages %}
+                    {{ message }}<br>
+                {% endfor %}
+            </div>
+                {% endif %}
+            {% endwith %}
+            <!-- process_login, перехал в модуль user,
+            уточняем новый адерс на user.process_login-->
+            <form action="{{ url_for('user.process_login') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username.label }}
+                    {{ form.username() }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password() }}
+                </div>
+                <!--Вставляем форму/функционал чек-бокса по сохранению пользовтеля -->
+                <!--тот же класс form-group,
+                    но добавляем для лучшей разукрашки form-check
+                form-group - отвечает за одинаковые отступы полей друг от друга -->
+                        <div class="form-group form-check">
+                        <!-- Сама галочка из формы -->
+                        {{ form.remember_me() }}
+                        <!-- 
+                        Когда мы хотим навести красоту в поле для заполнения,
+                        мы укзаывали классы в forms для этих атрибудтов.
+                        Когда же мы хотим навести крастоту в лейбле
+                        (Лейбл - текст возле атрибута = "Запомнить меня'"),
+                        то идем по цепи
+                        Форма.Атрибут.Лйбл(Задаем украшку лейбла)
+                        ВНИМАНИЕ!!!
+                        В данном случае класс_ пишем с подчеркиванием: "class_"
+                        (особенность питона)
+                        Если бы оформляли через <div class, то подчеркивание не нужно
+                        -->
+                        {{ form.remember_me.label(class_='form-check-label') }}
+                    </div>
+                    {{ form.submit }}
+            </form>                    
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

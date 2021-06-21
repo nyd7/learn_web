@@ -1,0 +1,88 @@
+<!--
+    Скопировали шаблон tbootstrap от сюда, блок Starter template (старотовый шаблон):
+    https://getbootstrap.com/docs/5.0/getting-started/introduction/
+--> 
+<!doctype html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS / Блок2 Настройки бутстрапа по CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+        <title>{{ page_title }}</title>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class='row'>
+                <h1>{{ page_title }}</h1>
+
+                <div class='col-4'>
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                        <div class="alert alert-warning" role="alert">
+                        {% for message in messages %}
+                            {{ message }}<br>
+                        {% endfor %}
+                    </div>
+                        {% endif %}
+                    {% endwith %}
+                    <!-- process_login, перехал в модуль user,
+                    уточняем новый адерс на user.process_login-->
+                    <form action="{{ url_for('user.process_login') }}" method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.username.label }}
+                            {{ form.username() }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.label }}
+                            {{ form.password() }}
+                        </div>
+                        <!--Вставляем форму/функционал чек-бокса по сохранению пользовтеля -->
+                        <!--тот же класс form-group,
+                            но добавляем для лучшей разукрашки form-check
+                        form-group - отвечает за одинаковые отступы полей друг от друга -->
+                             <div class="form-group form-check">
+                                <!-- Сама галочка из формы -->
+                                {{ form.remember_me() }}
+                                <!-- 
+                                Когда мы хотим навести красоту в поле для заполнения,
+                                мы укзаывали классы в forms для этих атрибудтов.
+                                Когда же мы хотим навести крастоту в лейбле
+                                (Лейбл - текст возле атрибута = "Запомнить меня'"),
+                                то идем по цепи
+                                Форма.Атрибут.Лйбл(Задаем украшку лейбла)
+                                ВНИМАНИЕ!!!
+                                В данном случае класс_ пишем с подчеркиванием: "class_"
+                                (особенность питона)
+                                Если бы оформляли через <div class, то подчеркивание не нужно
+                                -->
+                                {{ form.remember_me.label(class_='form-check-label') }}
+                            </div>
+                            {{ form.submit }}
+                    </form>                    
+                </div>
+                </div>
+            </div>
+        </div>
+
+<!--  -->
+    <!-- Optional JavaScript; choose one of the two! / Блок3 настройки Бутстрапа по Джаве -->
+    <!--
+         Отражаем мультимидийные настройки, можно отдельно подобрать в библиотеке Бутсрапа
+    -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <!-- Popper.js — маленький плагин всплывающих подсказок для сайта -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>

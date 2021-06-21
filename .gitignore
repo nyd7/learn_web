@@ -6,4 +6,7 @@ __pycache__/
 env/
 settings.py
 config.py
+config_step1.py
+config_step2.py
+config_step3.py
 *.db

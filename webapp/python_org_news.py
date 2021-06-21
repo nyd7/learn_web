@@ -1,7 +1,10 @@
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
-from webapp.model import db, News
+# Убираем из webapp News
+# и пишем новый адрес webapp.news.models
+from webapp.db import db
+from webapp.news.models import News
 
 
 def get_html(url):
