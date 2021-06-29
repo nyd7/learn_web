@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+<!-- Говрим наследоваться от base.html -->
+
+{% block content %}
+<!-- начало контента-->
+
+<!-- Блок вывода ошибок -->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <!-- Блок основного контента -->
+    <div class='row'>
+        <!-- <h1>{{ page_title }}</h1> -->
+        <div class='col-4'>
+            <!-- -->
+            <form action="{{ url_for('user.process_reg') }}" method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username.label }}
+                    {{ form.username() }}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label }}
+                    {{ form.email() }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label }}
+                    {{ form.password() }}
+                </div>
+                <div class="form-group">
+                    {{ form.password2.label }}
+                    {{ form.password2() }}
+                </div>
+                <!--Вставляем форму/функционал чек-бокса по сохранению пользовтеля -->
+                <!--тот же класс form-group,
+                    но добавляем для лучшей разукрашки form-check
+                form-group - отвечает за одинаковые отступы полей друг от друга -->
+                {{ form.submit }}
+            </form>                    
+        </div>
+    </div>
+{% endblock %}

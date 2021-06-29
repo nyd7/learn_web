@@ -1,18 +1,14 @@
 <!-- Создаем главное меню
 Копируем компонент Navbar из библиотеки компонентов Bootstrap -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Новости Python</a>
+    <a class="navbar-brand" href="/">Новости Python</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="/">Главная страница </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('user.login') }}">Логин</a>
             </li>
         </ul>
     <!-- <form class="form-inline my-2 my-lg-0">
@@ -23,5 +19,35 @@
         <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Искать</button>
     </form>
+    <!-- Перенесли кнпки связанные с авторизацией вправо, под форму, за поиск -->
+    <!-- Разукрашку взяли старую -->
+    <ul class="navbar-nav">
+        <!-- Если текущий пользователь аутифицирован (следит Логни-менеджер) -->
+        {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <!-- Спан дает возможности как "а", но без ссылок -->
+                <!-- Пишем в шапке приветсвие текущего пользователя -->
+                <span class="nav-link">Привет, {{ current_user.username }}!</span>
+            </li>
+            <!-- Если текущий пользователь вдобавок еще и админ -->
+            {% if current_user.is_admin %}
+            <li class="nav-item">
+                <!-- То добавляем кнопку админка, и в нее ссылка на странцу для администраторов -->
+                <a href="{{ url_for('admin.admin_index') }}" class="nav-link">Админка</a>
+            </li>
+            {% endif %}
+            <!-- Также оставляем кнопки Войти и Выйти, для залогининых -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user.logout') }}">Выйти</a>
+            </li>
+        {% else %}
+        <!-- Иначе справа оставляем только кнопки Войти и Регистрция с соотвествующими ссылками -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user.login') }}">Войти</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('user.register') }}">Регистрация</a>
+            </li>
+        {% endif %}
     </div>
 </nav>
