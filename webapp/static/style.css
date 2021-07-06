@@ -1,0 +1,10 @@
+/* Эта вставка будет искать картнки,
+ и будет задавать максимальный размре 100%
+ но в рамках своего блока
+ Далее подключаем его base.html
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+ */
+
+.news-content img {
+    max-width: 100%;
+}

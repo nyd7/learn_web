@@ -1,3 +1,6 @@
+# Удяляем файл, т.к. теперь добаваем новсти с Хабра,
+# через файл habr
+
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup

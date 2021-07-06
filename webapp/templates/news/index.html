@@ -35,12 +35,28 @@
             <p> - параграф, отступ (но почему не сработал...)
             <hr/> - черта, рисует разделющую черту
             -->
-            <h3><a href="{{news.url}}">{{news.title}}</a></h3>
+            <!-- Ранее тащили все новости из базы и тащили
+                for news in news_list полученные из views.py/def index()
+                ссылку на урл страницы и заголовок новости
+                <h3><a href="{{news.url}}">{{news.title}}</a></h3> 
+                {{news.url}}
+                --------------------------------------------------------
+                Сейчас же
+                url_for('news.single_news', - делаем ссылку на news.single_news'
+                передаем туда параметр , news_id=
+                =news.id - взять из строки, что переберали данные - id 
+                Т.о. нажимая по заголовку новости - мы запускаем
+                news.single_news с передачей туда нужного параметра,
+                а та в свою очередь выбрасывает нас на нужную страницу,
+                где мы сами трнаслируем новости из базы:
+                {{ url_for('news.single_news', news_id=news.id) }}
+            -->
+            <h4><a href="{{ url_for('news.single_news', news_id=news.id) }}">{{news.title}}</a></h4> 
             <!-- На входе мы получаем дату с милисикундами,
                 меняем формат, также как в python c помощью
                 datatime  .strftime()
                 -->
-            <p></p>{{news.published.strftime('%Y-%m-%d')}}</p>
+            <p>{{news.published.strftime('%Y-%m-%d')}}</p>
             <hr/>
             {% endfor %}
             
