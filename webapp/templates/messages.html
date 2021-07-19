@@ -1,0 +1,16 @@
+<!-- Обработка сообщений flash()
+"Добавим в шаблоны отображение сообщений из flash"
+Создали переменную messages, которая равна списку всех flash
+возникнувших у нас в коде, 
+отлавилвает их get_flashed_messages
+Если сообщение flash сущетсвует, то выдаем по очереди
+-->
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-warning" role="alert">
+    {% for message in messages %}
+        {{ message }}<br>
+    {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}

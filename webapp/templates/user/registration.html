@@ -4,16 +4,8 @@
 {% block content %}
 <!-- начало контента-->
 
-<!-- Блок вывода ошибок -->
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-danger" role="alert">
-            {{ message }}
-        </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+    <!-- Вствляем данные из messages.html, сообщения flash-a -->
+    {% include('messages.html') %}
     <!-- Блок основного контента -->
     <div class='row'>
         <!-- <h1>{{ page_title }}</h1> -->

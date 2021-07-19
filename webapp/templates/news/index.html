@@ -6,22 +6,10 @@
         <!-- <h1>{{ page_title }}</h1> -->
 
         <div class='col-8'>
-            <!-- Обработка сообщений flash()
-            "Добавим в шаблоны отображение сообщений из flash"
-            Создали переменную messages, которая равна списку всех flash
-            возникнувших у нас в коде, 
-            отлавилвает их get_flashed_messages
-            Если сообщение flash сущетсвует, то выдаем по очереди
-            -->
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="alert alert-warning" role="alert">
-                {% for message in messages %}
-                    {{ message }}<br>
-                {% endfor %}
-            </div>
-                {% endif %}
-            {% endwith %}
+            <!-- Вствляем данные из messages.html, 
+            сообщения flash-a -->
+            {% include('messages.html') %}
+
             <h2>Новости</h2>
             <!--Можем использовать итератор for,
                 но потом обязатльено закрываем endfor-->
@@ -56,8 +44,12 @@
                 меняем формат, также как в python c помощью
                 datatime  .strftime()
                 -->
-            <p>{{news.published.strftime('%Y-%m-%d')}}</p>
+            <p>{{news.published.strftime('%Y-%m-%d')}} | Комментарии: {{ news.comments_count() }}</p></p>
             <hr/>
+            <!-- Т.к. мы проходим по каждой новости - каждая строка = экзмепляр класса
+            Поэтому вызывая самописный метот из модели News - мы вызываем функцию
+            для конкретного объекта, конкретной новости
+            -->
             {% endfor %}
             
         </div>

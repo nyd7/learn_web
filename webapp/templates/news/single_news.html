@@ -6,8 +6,11 @@
         <!-- <h1>{{ page_title }}</h1> -->
 
         <div class='col-8  news-content'>
-           {{ news.text | safe}}
-           <!-- 
+            <!-- Вствляем данные из messages.html, сообщения flash-a -->
+            {% include('messages.html') %}
+
+            {{ news.text | safe}}
+            <!-- 
             "| safe" - фильтр доверия
             Если его не поставить, то на сайт транслируются все html символы,
             Если посмотреть код страницы, то там вообще идет подстановка этих
@@ -18,9 +21,33 @@
             который будет воровать куки в котором все пароли, и вредить.
             Когда мы ставим фильт "| safe", то это означает, что мы
             доверяем тексту и его можно не кодировать, изменять.        
-        -->
-            
+            -->
+
+            <!--  Для комменатриев используем форму card из bootstrap -->
+            {% if news.comments %}
+                <h3>Комментарии:</h3>
+                {% for comment in news.comments %}
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">{{ comment.text }}</p>
+                            <p class="card-text">
+                                <small>Опубликовано: {{ comment.created.strftime('%d.%m.%Y') }} | 
+                                    Автор: {{ comment.user.username }}</small>
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
+        <!-- Выведем форму создания комментария -->
+        <form action="{{ url_for('news.add_comment') }}" method="POST">
+            {{ comment_form.hidden_tag() }}
+            <div class="form-group">
+                {{ comment_form.comment_text.label }}
+                {{ comment_form.comment_text() }}
+            </div>
+            {{ comment_form.submit() }}
+        </form>
 
         <div class='col-4'>
             <h2>Другие новости</h2>  

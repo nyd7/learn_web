@@ -7,15 +7,8 @@
         <!-- <h1>{{ page_title }}</h1> -->
 
         <div class='col-4'>
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="alert alert-warning" role="alert">
-                {% for message in messages %}
-                    {{ message }}<br>
-                {% endfor %}
-            </div>
-                {% endif %}
-            {% endwith %}
+        <!-- Вствляем данные из messages.html, сообщения flash-a -->
+        {% include('messages.html') %}
             <!-- process_login, перехал в модуль user,
             уточняем новый адерс на user.process_login-->
             <form action="{{ url_for('user.process_login') }}" method="POST">
